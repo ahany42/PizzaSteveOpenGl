@@ -37,19 +37,63 @@ namespace Graphics
             sh = new Shader(projectPath + "\\Shaders\\SimpleVertexShader.vertexshader", projectPath + "\\Shaders\\SimpleFragmentShader.fragmentshader");
             Gl.glClearColor(0, 0, 0.4f, 1);
             float[] verts = {
-          // Cheese
-          -1.0f,  -1.0f,  0.2f,  1.0f, 0.8f, 0.3f,  
-          1.0f,  -1.0f,  0.2f,  1.0f, 0.8f, 0.3f, 
-          0.0f, 1.0f,  0.2f,  1.0f, 0.8f, 0.3f, 
+         // Cheese
+          -1.0f,  -1.0f,  0.2f,
+          1.0f, 0.8f, 0.3f,//RGB
+          1.0f,  -1.0f,  0.2f,  
+          1.0f, 0.8f, 0.3f,//RGB
+          0.0f, 1.0f,  0.2f,  
+          1.0f, 0.8f, 0.3f,//RGB
 
-          // 🍞 Pizza Back (Crust Side)
-         -1.0f,  -1.0f, -0.2f,  1.0f, 0.6f, 0.3f,
-         1.0f,  -1.0f, -0.2f,  1.0f, 0.6f, 0.3f,
-         0.0f, 1.0f, -0.2f,  1.0f, 0.6f, 0.3f,  
+         // Pizza 
+         -1.0f,  -1.0f, -0.2f, 
+         1.0f, 0.6f, 0.3f,//RGB
+         1.0f,  -1.0f, -0.2f,
+         1.0f, 0.6f, 0.3f,//RGB
+         0.0f, 1.0f, -0.2f,
+        1.0f, 0.6f, 0.3f,//RGB  
 
-         //eyes
-         -0.5f,-0.7f,0.2f,0.0f,0.0f,0.0f,
-         0.5f,-0.7f,0.2f,0.0f,0.0f,0.0f,
+         // Eyes
+         -0.5f,-0.7f,0.2f,
+         0.0f,0.0f,0.0f,//RGB
+         0.5f,-0.7f,0.2f,
+         0.0f,0.0f,0.0f,//RGB
+
+        // Mouth Quad - 2 Triangles
+        -0.2f, 0.2f, 0.2f,   
+        0.0f, 0.0f, 0.0f,//RGB  
+        0.2f, 0.2f, 0.2f,   
+        0.0f, 0.0f, 0.0f,//RGB  
+        0.2f, 0.4f, 0.2f,    
+        0.0f, 0.0f, 0.0f,//RGB  
+        -0.2f, 0.2f, 0.2f,
+        0.0f, 0.0f, 0.0f,//RGB  
+        0.2f, 0.4f, 0.2f,  
+        0.0f, 0.0f, 0.0f,//RGB 
+        -0.2f, 0.4f, 0.2f,
+        0.0f, 0.0f, 0.0f,//RGB
+
+        //Right Arm
+        -0.5f,0.0f,0.2f,
+        0.0f,0.0f,0.0f,//RGB
+        -1.4f,-1.0f,0.2f,
+        0.0f,0.0f,0.0f,//RGB
+
+        //Left Arm
+        0.5f,0.0f,0.2f,
+        0.0f,0.0f,0.0f,//RGB
+        1.4f,-1.0f,0.2f,
+        0.0f,0.0f,0.0f,//RGB
+
+        // Legs (Using Line Strip)
+        -0.4f, 1.5f, 0.2f,   
+        0.0f, 0.0f, 0.0f,//RGB
+        -0.4f, 1.0f, 0.2f,   
+        0.0f, 0.0f, 0.0f,//RGB
+         0.4f, 1.0f, 0.2f,   
+        0.0f, 0.0f, 0.0f,//RGB
+        0.4f, 1.5f, 0.2f,   
+        0.0f, 0.0f, 0.0f//RGB
 
 
    };           
@@ -88,6 +132,7 @@ namespace Graphics
             Gl.glVertexAttribPointer(0, 3, Gl.GL_FLOAT, Gl.GL_FALSE, 6*sizeof(float), (IntPtr)0);
             Gl.glEnableVertexAttribArray(1);
             Gl.glVertexAttribPointer(1, 3, Gl.GL_FLOAT, Gl.GL_FALSE, 6 * sizeof(float), (IntPtr)(3*sizeof(float)));
+             // 5 Primitives Triangles,Points,Lines,Line Strip,Square(using 2 triangles)
             //pizza slice
             Gl.glDrawArrays(Gl.GL_TRIANGLES, 0, 6);
 
@@ -95,9 +140,21 @@ namespace Graphics
             Gl.glPointSize(10);
             Gl.glDrawArrays(Gl.GL_POINTS, 6, 2);
 
+            //Mouth Quad
+            Gl.glDrawArrays(Gl.GL_TRIANGLES, 8, 6);
+
+            //Arms
+            Gl.glLineWidth(5);
+            Gl.glDrawArrays(Gl.GL_LINES, 14, 4);
+
+            // Draw Legs using Line Strip
+            Gl.glLineWidth(5);
+            Gl.glDrawArrays(Gl.GL_LINE_STRIP, 18, 4);  
 
             Gl.glDisableVertexAttribArray(0);
             Gl.glDisableVertexAttribArray(1);
+
+
         }
         public void Update()
         {
