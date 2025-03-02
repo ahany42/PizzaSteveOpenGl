@@ -36,52 +36,46 @@ namespace Graphics
             string projectPath = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
             sh = new Shader(projectPath + "\\Shaders\\SimpleVertexShader.vertexshader", projectPath + "\\Shaders\\SimpleFragmentShader.fragmentshader");
             Gl.glClearColor(0, 0, 0.4f, 1);
-            float[] verts = { 
-		        // T1
-		        0.5f, 0.0f, -3.0f,
-                1.0f, 0.0f, 0.0f, //R
+            float[] verts = {
+          // 🍕 Pizza Front (Cheese) - Triangle flipped downward
+    -1.0f,  -1.0f,  0.2f,  1.0f, 0.8f, 0.3f,  // Top-left  (Crust)
+     1.0f,  -1.0f,  0.2f,  1.0f, 0.8f, 0.3f,  // Top-right (Crust)
+     0.0f, 1.0f,  0.2f,  1.0f, 0.8f, 0.3f,  // Bottom (Tip)
 
-	            0.0f, 1.0f, -3.0f,
-                0.0f, 1.0f, 0.0f, //G
+    // 🍞 Pizza Back (Crust Side)
+    -1.0f,  -1.0f, -0.2f,  1.0f, 0.6f, 0.2f,
+     1.0f,  -1.0f, -0.2f,  1.0f, 0.6f, 0.2f,
+     0.0f, 1.0f, -0.2f,  1.0f, 0.6f, 0.2f,  
 
-		        0.0f, -1.0f, -3.0f,
-                0.0f, 0.0f, 1.0f,  //B
-		
-		        //T2
-		        -0.5f, 0.0f, -6.0f,
-                1.0f, 1.0f, 0.0f, //
-	            0.0f, 1.0f, -6.0f,
-                1.0f, 0.0f, 1.0f, //
-		        0.0f, -1.0f, -6.0f,
-                0.0f, 1.0f, 1.0f,  //
+    // 🔄 Connecting Side Faces
+    -1.0f,  -1.0f,  0.2f,  1.0f, 0.8f, 0.3f,
+    -1.0f,  -1.0f, -0.2f,  1.0f, 0.8f, 0.3f,
+     1.0f,  -1.0f,  0.2f,  1.0f, 0.8f, 0.3f,
 
-		        //Axis
-		        //x
-		        0.0f, 0.0f, 0.0f,
-                1.0f, 0.0f, 0.0f, //R
-		        5.0f, 0.0f, 0.0f,
-                1.0f, 0.0f, 0.0f, //R
-		        //y
-	            0.0f, 0.0f, 0.0f,
-                0.0f, 1.0f, 0.0f, //G
-		        0.0f, 5.0f, 0.0f,
-                0.0f, 1.0f, 0.0f, //G
-		        //z
-	            0.0f, 0.0f, 0.0f,
-                0.0f, 0.0f, 1.0f,  //B
-		        0.0f, 0.0f, -5.0f,
-                0.0f, 0.0f, 1.0f,  //B
-            };
+     1.0f,  -1.0f, -0.2f,  1.0f, 0.8f, 0.3f,
+     0.0f, 1.0f,  0.2f,  1.0f, 0.8f, 0.3f,
+     0.0f, 1.0f, -0.2f,  1.0f, 0.8f, 0.3f,
 
+    // 🕶️ Sunglasses (Black Rectangles)
+    -0.5f,  -0.3f,  0.21f,  0.0f, 0.0f, 0.0f,
+     0.5f,  -0.3f,  0.21f,  0.0f, 0.0f, 0.0f,
+    -0.5f,  -0.5f,  0.21f,  0.0f, 0.0f, 0.0f,
 
+     0.5f,  -0.5f,  0.21f,  0.0f, 0.0f, 0.0f,
+    -0.5f,  -0.5f,  0.21f,  0.0f, 0.0f, 0.0f,
+     0.5f,  -0.3f,  0.21f,  0.0f, 0.0f, 0.0f,
+
+    // 😃 Mouth (Small Black Line)
+    -0.3f, 0.7f,  0.21f,  0.0f, 0.0f, 0.0f,
+     0.3f, 0.7f,  0.21f,  0.0f, 0.0f, 0.0f};           
             vertexBufferID = GPU.GenerateBuffer(verts);
 
             //ProjectionMatrix = glm.perspective(FOV, Width / Height, Near, Far);
-            p = glm.perspective(45, 4 / 3.0f, 0.1f, 100);
+            p = glm.perspective(5.0f,1/1.0f,1.0f, 10.0f);
             // View matrix 
             v = glm.lookAt(
-                new vec3(3,5,5),// eye
-                new vec3(0,2,0), // center
+                new vec3(0,0,2),// eye
+                new vec3(0,0,0), // center
                 new vec3(0,1,0)); // up
             // Model matrix: apply transformations to the model
             m = new mat4(1);
@@ -109,10 +103,13 @@ namespace Graphics
             Gl.glVertexAttribPointer(0, 3, Gl.GL_FLOAT, Gl.GL_FALSE, 6*sizeof(float), (IntPtr)0);
             Gl.glEnableVertexAttribArray(1);
             Gl.glVertexAttribPointer(1, 3, Gl.GL_FLOAT, Gl.GL_FALSE, 6 * sizeof(float), (IntPtr)(3*sizeof(float)));
+            Gl.glDrawArrays(Gl.GL_TRIANGLES, 0, 18);
 
-            Gl.glDrawArrays(Gl.GL_TRIANGLES, 0, 6);
-            Gl.glDrawArrays(Gl.GL_LINES, 6, 6);
+            // Draw Sunglasses
+            Gl.glDrawArrays(Gl.GL_TRIANGLES, 18, 6);
 
+            // Draw Mouth
+            Gl.glDrawArrays(Gl.GL_LINES , 24, 2);
 
 
             Gl.glDisableVertexAttribArray(0);
