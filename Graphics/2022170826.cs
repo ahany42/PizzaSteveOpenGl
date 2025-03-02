@@ -37,37 +37,22 @@ namespace Graphics
             sh = new Shader(projectPath + "\\Shaders\\SimpleVertexShader.vertexshader", projectPath + "\\Shaders\\SimpleFragmentShader.fragmentshader");
             Gl.glClearColor(0, 0, 0.4f, 1);
             float[] verts = {
-          // 🍕 Pizza Front (Cheese) - Triangle flipped downward
-    -1.0f,  -1.0f,  0.2f,  1.0f, 0.8f, 0.3f,  // Top-left  (Crust)
-     1.0f,  -1.0f,  0.2f,  1.0f, 0.8f, 0.3f,  // Top-right (Crust)
-     0.0f, 1.0f,  0.2f,  1.0f, 0.8f, 0.3f,  // Bottom (Tip)
+          // Cheese
+          -1.0f,  -1.0f,  0.2f,  1.0f, 0.8f, 0.3f,  
+          1.0f,  -1.0f,  0.2f,  1.0f, 0.8f, 0.3f, 
+          0.0f, 1.0f,  0.2f,  1.0f, 0.8f, 0.3f, 
 
-    // 🍞 Pizza Back (Crust Side)
-    -1.0f,  -1.0f, -0.2f,  1.0f, 0.6f, 0.2f,
-     1.0f,  -1.0f, -0.2f,  1.0f, 0.6f, 0.2f,
-     0.0f, 1.0f, -0.2f,  1.0f, 0.6f, 0.2f,  
+          // 🍞 Pizza Back (Crust Side)
+         -1.0f,  -1.0f, -0.2f,  1.0f, 0.6f, 0.3f,
+         1.0f,  -1.0f, -0.2f,  1.0f, 0.6f, 0.3f,
+         0.0f, 1.0f, -0.2f,  1.0f, 0.6f, 0.3f,  
 
-    // 🔄 Connecting Side Faces
-    -1.0f,  -1.0f,  0.2f,  1.0f, 0.8f, 0.3f,
-    -1.0f,  -1.0f, -0.2f,  1.0f, 0.8f, 0.3f,
-     1.0f,  -1.0f,  0.2f,  1.0f, 0.8f, 0.3f,
+         //eyes
+         -0.5f,-0.7f,0.2f,0.0f,0.0f,0.0f,
+         0.5f,-0.7f,0.2f,0.0f,0.0f,0.0f,
 
-     1.0f,  -1.0f, -0.2f,  1.0f, 0.8f, 0.3f,
-     0.0f, 1.0f,  0.2f,  1.0f, 0.8f, 0.3f,
-     0.0f, 1.0f, -0.2f,  1.0f, 0.8f, 0.3f,
 
-    // 🕶️ Sunglasses (Black Rectangles)
-    -0.5f,  -0.3f,  0.21f,  0.0f, 0.0f, 0.0f,
-     0.5f,  -0.3f,  0.21f,  0.0f, 0.0f, 0.0f,
-    -0.5f,  -0.5f,  0.21f,  0.0f, 0.0f, 0.0f,
-
-     0.5f,  -0.5f,  0.21f,  0.0f, 0.0f, 0.0f,
-    -0.5f,  -0.5f,  0.21f,  0.0f, 0.0f, 0.0f,
-     0.5f,  -0.3f,  0.21f,  0.0f, 0.0f, 0.0f,
-
-    // 😃 Mouth (Small Black Line)
-    -0.3f, 0.7f,  0.21f,  0.0f, 0.0f, 0.0f,
-     0.3f, 0.7f,  0.21f,  0.0f, 0.0f, 0.0f};           
+   };           
             vertexBufferID = GPU.GenerateBuffer(verts);
 
             //ProjectionMatrix = glm.perspective(FOV, Width / Height, Near, Far);
@@ -103,13 +88,12 @@ namespace Graphics
             Gl.glVertexAttribPointer(0, 3, Gl.GL_FLOAT, Gl.GL_FALSE, 6*sizeof(float), (IntPtr)0);
             Gl.glEnableVertexAttribArray(1);
             Gl.glVertexAttribPointer(1, 3, Gl.GL_FLOAT, Gl.GL_FALSE, 6 * sizeof(float), (IntPtr)(3*sizeof(float)));
-            Gl.glDrawArrays(Gl.GL_TRIANGLES, 0, 18);
+            //pizza slice
+            Gl.glDrawArrays(Gl.GL_TRIANGLES, 0, 6);
 
-            // Draw Sunglasses
-            Gl.glDrawArrays(Gl.GL_TRIANGLES, 18, 6);
-
-            // Draw Mouth
-            Gl.glDrawArrays(Gl.GL_LINES , 24, 2);
+            //eyes
+            Gl.glPointSize(10);
+            Gl.glDrawArrays(Gl.GL_POINTS, 6, 2);
 
 
             Gl.glDisableVertexAttribArray(0);
