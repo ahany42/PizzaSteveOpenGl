@@ -51,7 +51,7 @@ namespace Graphics
         {
             string projectPath = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
             sh = new Shader(projectPath + "\\Shaders\\SimpleVertexShader.vertexshader", projectPath + "\\Shaders\\SimpleFragmentShader.fragmentshader");
-            Gl.glClearColor(0, 0, 0.4f, 1);
+            Gl.glClearColor(1f, 1f,1f, 1);
 
             triangleCenter = new vec3(-1.0f, -1.0f, -0.2f);
             float[] cheeseVerts = {
@@ -120,7 +120,7 @@ namespace Graphics
 
             // View matrix 
             ViewMatrix = glm.lookAt(
-            new vec3(0, 0, 2),// eye
+            new vec3(0, 0, 5),// eye
             new vec3(0, 0, 0), // center
             new vec3(0, 1, 0)); // up
 
@@ -128,7 +128,7 @@ namespace Graphics
             ModelMatrix = new mat4(1);
 
             //ProjectionMatrix = glm.perspective(FOV, Width / Height, Near, Far);
-            ProjectionMatrix = glm.perspective(-45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+            ProjectionMatrix = glm.perspective(-45.0f, 3.0f / 4.0f, 1f, 100.0f);
 
             // Our MVP matrix which is a multiplication of our 3 matrices 
             sh.UseShader();

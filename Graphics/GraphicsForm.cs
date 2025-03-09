@@ -36,7 +36,7 @@ namespace Graphics
 
         private void simpleOpenGlControl1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            float speed = 5;
+            float speed = -1;
 
             if (e.KeyChar == 'd')
                 renderer.translationX += speed;
