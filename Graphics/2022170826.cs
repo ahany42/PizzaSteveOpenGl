@@ -15,6 +15,7 @@ using Tao.OpenGl;
 using GlmNet;
 using System.IO;
 using System.Diagnostics;
+using static System.Net.Mime.MediaTypeNames;
 namespace Graphics
 
 {
@@ -31,6 +32,8 @@ namespace Graphics
         mat4 ModelMatrix;
         mat4 ViewMatrix;
         mat4 ProjectionMatrix;
+
+        Texture tex1;
 
         int ShaderModelMatrixID;
         int ShaderViewMatrixID;
@@ -51,16 +54,48 @@ namespace Graphics
         {
             string projectPath = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
             sh = new Shader(projectPath + "\\Shaders\\SimpleVertexShader.vertexshader", projectPath + "\\Shaders\\SimpleFragmentShader.fragmentshader");
+            tex1 = new Texture(projectPath + "\\Images\\pizza.png", 1);
             Gl.glClearColor(1f, 1f,1f, 1);
 
             triangleCenter = new vec3(-1.0f, -1.0f, -0.2f);
+            //3D Pyramid Cheese Using Traingles
             float[] cheeseVerts = {
-            -1.0f,  -1.0f,  0.2f,
-            1.0f, 0.6f, 0.3f,//RGB
+             -1.0f,  -1.0f,  0.2f,
+            1.0f, 0.6f, 0.3f, //RGB
+            0,0,
             1.0f,  -1.0f,  0.2f,
-            1.0f, 0.6f, 0.3f,//RGB
-            0.0f, 1.0f,  0.2f,
-            1.0f, 0.6f, 0.9f//RGB 
+            1.0f, 0.6f, 0.3f, //RGB
+            0,1,
+            0.0f,   1.0f,  0.2f,
+            1.0f, 0.6f, 0.9f, //RGB
+            1,0,
+            0.0f, -0.33f, 1.0f,
+            1.0f, 1.0f, 0.3f, //RGB
+            1,0,
+            -1.0f,  -1.0f,  0.2f,
+            1.0f, 0.6f, 0.3f, //RGB
+            1,1,
+            1.0f,  -1.0f,  0.2f,
+            1.0f, 0.6f, 0.3f, //RGB
+            1,1,
+            0.0f, -0.33f, 1.0f,
+            1.0f, 1.0f, 0.3f, //RGB
+            0,0,
+            1.0f,  -1.0f,  0.2f,
+            1.0f, 0.6f, 0.3f, //RGB
+            0,1,
+            0.0f,   1.0f,  0.2f,
+            1.0f, 0.6f, 0.9f, //RGB
+            1,0,
+            0.0f, -0.33f, 1.0f,
+            1.0f, 1.0f, 0.3f, //RGB
+            0,1,
+            0.0f,   1.0f,  0.2f,
+            1.0f, 0.6f, 0.9f, //RGB
+            1,1,
+            -1.0f,  -1.0f,  0.2f,
+            1.0f, 0.6f, 0.3f, //RGB
+            1,1
             };
             float[] eyesVerts = {
             -0.5f,-0.7f,0.2f,
@@ -120,7 +155,7 @@ namespace Graphics
 
             // View matrix 
             ViewMatrix = glm.lookAt(
-            new vec3(0, 0, 5),// eye
+            new vec3(0, 0, 4),// eye
             new vec3(0, 0, 0), // center
             new vec3(0, 1, 0)); // up
 
@@ -157,16 +192,20 @@ namespace Graphics
             Gl.glUniformMatrix4fv(ShaderModelMatrixID, 1, Gl.GL_FALSE, ModelMatrix.to_array());
 
             Gl.glEnableVertexAttribArray(0);
-            Gl.glVertexAttribPointer(0, 3, Gl.GL_FLOAT, Gl.GL_FALSE, 6 * sizeof(float), (IntPtr)0);
+            Gl.glVertexAttribPointer(0, 3, Gl.GL_FLOAT, Gl.GL_FALSE, 8 * sizeof(float), (IntPtr)0);
             Gl.glEnableVertexAttribArray(1);
-            Gl.glVertexAttribPointer(1, 3, Gl.GL_FLOAT, Gl.GL_FALSE, 6 * sizeof(float), (IntPtr)(3 * sizeof(float)));
-            Gl.glDrawArrays(Gl.GL_TRIANGLES, 0, 3);
+            Gl.glVertexAttribPointer(1, 3, Gl.GL_FLOAT, Gl.GL_FALSE, 8 * sizeof(float), (IntPtr)(3 * sizeof(float)));
+            Gl.glEnableVertexAttribArray(2);
+            Gl.glVertexAttribPointer(2, 2, Gl.GL_FLOAT, Gl.GL_FALSE, 8 * sizeof(float), (IntPtr)(6 * sizeof(float)));
+            tex1.Bind();
+            Gl.glDrawArrays(Gl.GL_TRIANGLES, 0, 9);
 
 
             Gl.glDisableVertexAttribArray(0);
             Gl.glDisableVertexAttribArray(1);
+            Gl.glDisableVertexAttribArray(2);
             #endregion
-           
+
             #region Eyes
             Gl.glBindBuffer(Gl.GL_ARRAY_BUFFER, eyesBufferID);
 

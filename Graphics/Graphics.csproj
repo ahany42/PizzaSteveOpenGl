@@ -70,6 +70,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="2022170826.cs" />
     <Compile Include="Shader.cs" />
+    <Compile Include="Texture.cs" />
     <EmbeddedResource Include="GraphicsForm.resx">
       <DependentUpon>GraphicsForm.cs</DependentUpon>
     </EmbeddedResource>

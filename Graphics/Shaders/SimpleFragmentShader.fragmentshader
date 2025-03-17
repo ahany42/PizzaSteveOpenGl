@@ -1,10 +1,24 @@
 #version 330 core
 
-// Ouput data
-out vec3 color;
+// Output data
+out vec4 FragColor;
+
+// Inputs from vertex shader
 in vec3 pixelcolor;
+in vec2 Tex;
+
+// Uniforms
+uniform sampler2D myTextureSampler;
+uniform int useTexture; // 0 for color, 1 for texture
+
 void main()
 {
-	color = pixelcolor;
-
+    if (useTexture == 0)
+    {
+        FragColor = vec4(pixelcolor, 1.0); // Add alpha
+    }
+    else
+    {
+        FragColor = texture(myTextureSampler, Tex);
+    }
 }
