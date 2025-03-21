@@ -13,12 +13,12 @@ uniform int useTexture; // 0 for color, 1 for texture
 
 void main()
 {
-    if (useTexture == 1)
+    if (useTexture == 0)
     {
-        FragColor = vec4(pixelcolor, 1.0); // Add alpha
+        FragColor = texture(myTextureSampler, Tex);
     }
     else
     {
-        FragColor = texture(myTextureSampler, Tex);
+        FragColor = vec4(pixelcolor, 1.0); // Add alpha
     }
 }

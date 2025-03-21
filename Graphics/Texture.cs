@@ -31,6 +31,10 @@ namespace Graphics
             mtexture = tex[0];
             //2 - Bind
             Gl.glBindTexture(Gl.GL_TEXTURE_2D, mtexture);
+            //3 - Allocation (Buffering)
+            Gl.glTexImage2D(Gl.GL_TEXTURE_2D, 0, Gl.GL_RGBA, width, height, 0, Gl.GL_BGRA,
+                Gl.GL_UNSIGNED_BYTE, bitmapData.Scan0);
+
 
             //4 - Specifying Parameters
             //wrapping S & T
@@ -41,10 +45,6 @@ namespace Graphics
             Gl.glTexParameteri(Gl.GL_TEXTURE_2D, Gl.GL_TEXTURE_MAG_FILTER, Gl.GL_NEAREST);
 
             Gl.glPixelStorei(Gl.GL_UNPACK_ALIGNMENT, 1);
-
-            //3 - Allocation (Buffering)
-            Gl.glTexImage2D(Gl.GL_TEXTURE_2D, 0, Gl.GL_RGBA, width, height, 0, Gl.GL_BGRA,
-                Gl.GL_UNSIGNED_BYTE, bitmapData.Scan0);
 
 
 
